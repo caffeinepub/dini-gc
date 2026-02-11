@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Update the site favicon and apple-touch icon to use the user-uploaded dinosaur head image.
+**Goal:** Retry the production deployment for Version 33 so the updated branding ships correctly (document title “Dini GC” and favicon/apple-touch-icon load from the production site).
 
 **Planned changes:**
-- Regenerate `/assets/generated/dinigc-favicon.dim_64x64.png` from `image-3.png` while keeping the same filename/path.
-- Regenerate `/assets/generated/dinigc-apple-touch-icon.dim_180x180.png` from `image-3.png` while keeping the same filename/path.
-- Keep `frontend/index.html` referencing the exact existing icon asset paths.
+- Retry production deployment for the latest successful build (Version 33).
+- Verify production serves the updated HTML document title (“Dini GC”).
+- Verify production loads the favicon and apple touch icon from the paths referenced in `frontend/index.html`.
 
-**User-visible outcome:** The browser tab favicon and the mobile home-screen icon reflect the uploaded dinosaur head image after deployment.
+**User-visible outcome:** The production site deploys successfully, shows “Dini GC” in the browser tab title, and displays the correct favicon and apple touch icon loaded from the expected asset URLs.

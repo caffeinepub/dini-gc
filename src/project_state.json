@@ -1,11 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
+  "projectStateVersion": 9,
   "summary": "Dini GC (Anonymous Global Chat Website) project; rebranding site display name to \"Dini GC\" and exploring changing the site URL via a custom domain (dinigc.com) plus adding an icon next to the website name (favicon).",
   "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Edit Images\n- Replace the icon artwork with the uploaded dinosaur head image (dinigc-favicon.dim_64x64.png > dinigc-favicon.dim_64x64.png)\n- Replace the icon artwork with the uploaded dinosaur head image (dinigc-apple-touch-icon.dim_180x180.png > dinigc-apple-touch-icon.dim_180x180.png)",
+  "known_issues": [
+    "Production deployment failed with a generic \"Deployment error\"; needs retry to push latest build (Version 33) to production."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-update-the-website-display-name-shown-in-the-browser-tab-html-document-title-from-anonymous-global-chat-website-to-dini-gc-without-changing-the-site-url-link",
@@ -36,6 +37,14 @@
       "title": "Replace the existing favicon and apple-touch-icon static assets with versions derived from the user-uploaded image (image-3.png), keeping the same filenames and paths currently referenced by frontend/index.html.",
       "reqIds": [
         "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-retry-the-production-deployment-for-the-latest-successful-build-version-33-ensuring-the-already-updated-branding-assets-are-what-ship-to-production-html-document-title-is-dini-gc-and-the-referenced-favicon-apple-touch-icon-assets-load-correctly-from-the-production-site",
+      "title": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
+      "reqIds": [
+        "REQ-5"
       ],
       "version": 1
     }

@@ -1,31 +1,42 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Set favicon and apple-touch icon to the user-uploaded image",
+  "title": "Version 33 production branding deployment verification (Dini GC title + favicon)",
   "requirements": [
     {
-      "id": "REQ-4",
-      "summary": "Regenerate the existing favicon and apple-touch-icon assets from the uploaded image (image-3.png) while keeping the exact filenames/paths referenced by frontend/index.html.",
+      "id": "REQ-5",
+      "summary": "Ensure Version 33 ships with the intended branding in production by verifying the HTML document title and the referenced favicon/apple-touch-icon asset paths exist and are correct.",
       "acceptanceCriteria": [
-        "The files /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png are regenerated from image-3.png and included in the frontend build output.",
-        "frontend/index.html continues to reference exactly these paths: /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png.",
-        "After deployment, the browser tab icon reflects the uploaded image, and adding the site to a mobile home screen uses the updated apple-touch icon."
+        "A production deployment succeeds without a generic \"Deployment error\".",
+        "On the production site, the browser tab title is \"Dini GC\".",
+        "On the production site, the favicon appears and is loaded from the path referenced in frontend/index.html (/assets/generated/dinigc-favicon.dim_64x64.png).",
+        "On the production site, the apple touch icon is referenced as /assets/generated/dinigc-apple-touch-icon.dim_180x180.png."
       ],
       "file_operations": [
         {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Confirm the HTML <title> remains exactly \"Dini GC\" and that the favicon and apple-touch-icon <link> tags reference the exact production paths /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png (no behavioral/UI changes beyond ensuring these exact references)."
+        },
+        {
           "path": "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
-          "operation": "create",
-          "description": "Create/replace the favicon asset by regenerating it from the uploaded source image (image-3.png), ensuring the final output is exactly 64x64 and saved at this exact path so it is emitted in the build output."
+          "operation": "modify",
+          "description": "Verify the favicon asset is present at this exact path in the frontend static assets so it is included in the production build output."
         },
         {
           "path": "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
-          "operation": "create",
-          "description": "Create/replace the apple-touch icon asset by regenerating it from the uploaded source image (image-3.png), ensuring the final output is exactly 180x180 and saved at this exact path so it is emitted in the build output."
+          "operation": "modify",
+          "description": "Verify the apple touch icon asset is present at this exact path in the frontend static assets so it is included in the production build output."
         },
         {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Verify the favicon and apple-touch-icon <link> references continue to point exactly to /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png (do not change filenames or paths)."
+          "path": "frontend/scripts/verify-branding-assets.ts",
+          "operation": "create",
+          "description": "Add a small pre-deploy verification script that checks (a) frontend/index.html contains title \"Dini GC\" and the exact icon hrefs, and (b) the referenced static asset files exist in frontend/public/assets/generated/; keep this as a deployment guardrail and do not change any runtime UI behavior."
+        },
+        {
+          "path": "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
+          "operation": "create",
+          "description": "Document a minimal deployment checklist for Version 33 branding verification (title + favicon + apple-touch-icon paths) to help ensure the production deployment ships the intended assets without introducing product/UI changes."
         }
       ]
     }

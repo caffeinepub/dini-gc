@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-11T01:44:20.243Z",
+  "generatedAt": "2026-02-11T02:09:29.695Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -11,17 +11,19 @@
     "implemented": 1,
     "items": [
       {
-        "id": "REQ-4",
-        "summary": "Replace the existing favicon and apple-touch-icon static assets with versions derived from the user-uploaded image (image-3.png), keeping the same filenames and paths currently referenced by frontend/index.html.",
+        "id": "REQ-5",
+        "summary": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
         "status": "implemented",
         "plannedFiles": [
+          "frontend/index.html",
           "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
           "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
-          "frontend/index.html"
+          "frontend/scripts/verify-branding-assets.ts",
+          "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
-          "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png"
+          "frontend/scripts/verify-branding-assets.ts",
+          "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md"
         ]
       }
     ]
@@ -29,9 +31,10 @@
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
-    "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
+    "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
+    "frontend/scripts/verify-branding-assets.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

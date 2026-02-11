@@ -1,34 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Set favicon to the user-uploaded image",
+  "title": "Retry production deployment for Version 33 (Dini GC favicon + title)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-4",
-      "text": "Replace the existing favicon and apple-touch-icon static assets with versions derived from the user-uploaded image (image-3.png), keeping the same filenames and paths currently referenced by frontend/index.html.",
-      "target": "frontend",
+      "id": "REQ-5",
+      "text": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
+      "target": "unknown",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-7",
+          "msg-6"
         ],
         "quotes": [
-          "can you put the favicon to the image I uploaded? (image.png)"
+          "yes",
+          "If you want, I can retry the production deploy for you."
         ]
       },
       "acceptanceCriteria": [
-        "The files /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png are regenerated from image-3.png and included in the frontend build output.",
-        "frontend/index.html continues to reference exactly these paths: /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png.",
-        "After deployment, the browser tab icon reflects the uploaded image, and adding the site to a mobile home screen uses the updated apple-touch icon."
+        "A production deployment succeeds without a generic \"Deployment error\".",
+        "On the production site, the browser tab title is \"Dini GC\".",
+        "On the production site, the favicon appears and is loaded from the path referenced in frontend/index.html (/assets/generated/dinigc-favicon.dim_64x64.png).",
+        "On the production site, the apple touch icon is referenced as /assets/generated/dinigc-apple-touch-icon.dim_180x180.png."
       ]
     }
   ],
-  "constraints": [],
-  "nonGoals": [],
+  "constraints": [
+    "Do not introduce new product features or UI changes; this request is a deployment retry only."
+  ],
+  "nonGoals": [
+    "Implementing or configuring a custom domain (e.g., dinigc.com).",
+    "Any new changes to favicon design beyond what is already in the current build."
+  ],
   "imageRequirements": {
     "required": [],
-    "edits": [
-      "Replace the icon artwork with the uploaded dinosaur head image (dinigc-favicon.dim_64x64.png > dinigc-favicon.dim_64x64.png)",
-      "Replace the icon artwork with the uploaded dinosaur head image (dinigc-apple-touch-icon.dim_180x180.png > dinigc-apple-touch-icon.dim_180x180.png)"
-    ]
+    "edits": []
   }
 }

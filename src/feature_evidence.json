@@ -2,9 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-the-existing-favicon-and-apple-touch-icon-static-assets-with-versions-derived-from-the-user-uploaded-image-image-3-png-keeping-the-same-filenames-and-paths-currently-referenced-by-frontend-index-html",
-      "featureTitle": "Replace the existing favicon and apple-touch-icon static assets with versions derived from the user-uploaded image (image-3.png), keeping the same filenames and paths currently referenced by frontend/index.html.",
-      "files": [],
+      "featureId": "feature-retry-the-production-deployment-for-the-latest-successful-build-version-33-ensuring-the-already-updated-branding-assets-are-what-ship-to-production-html-document-title-is-dini-gc-and-the-referenced-favicon-apple-touch-icon-assets-load-correctly-from-the-production-site",
+      "featureTitle": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
+      "files": [
+        "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
+        "frontend/scripts/verify-branding-assets.ts"
+      ],
       "components": [
         "blob-storage@4.0.0",
         "core-infrastructure@1.0.2",
@@ -16,7 +19,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-4"
+        "REQ-5"
       ],
       "confidence": "high"
     }

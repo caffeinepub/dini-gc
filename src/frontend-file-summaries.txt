@@ -8,5 +8,7 @@
   "frontend/src/components/GifPicker.tsx": "GIF search and selection component with improved error handling, loading states, retry mechanisms, proper GIPHY API integration with enhanced user feedback for network issues, and all elements recolored to #cde5aa.",
   "frontend/src/lib/config.ts": "Application configuration file with updated GIPHY API key (sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh) for trending and search endpoints with default parameters.",
   "frontend/src/components/EmojiPicker.tsx": "Custom emoji picker component allowing users to upload emoji images with names, browse all uploaded emojis in a grid, and select emojis to add to messages with real-time preview, all styled with #cde5aa colors and borders.",
-  "frontend/index.html": "HTML entry point with document title \"Dini GC\" and favicon/apple-touch-icon link tags referencing generated static assets, containing root div and main TypeScript module script."
+  "frontend/index.html": "HTML entry point with document title \"Dini GC\" and favicon/apple-touch-icon link tags referencing generated static assets, containing root div and main TypeScript module script.",
+  "frontend/scripts/verify-branding-assets.ts": "Pre-deployment verification script that checks frontend/index.html for correct title and icon references, and verifies the physical asset files exist in the expected locations.",
+  "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md": "Deployment checklist documentation for Version 33 branding verification, including pre-deployment steps, production deployment process, troubleshooting guide, and branding specifications."
 }
