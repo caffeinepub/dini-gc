@@ -1,21 +1,41 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Rename HTML document title to Dini GC",
+  "title": "Add favicon and app icon assets referenced from HTML head",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Change the HTML document <title> shown in the browser tab to \"Dini GC\" without altering URLs, routing, or links.",
+      "id": "REQ-2",
+      "summary": "Reference favicon assets from the HTML head so browsers show a custom tab icon.",
       "acceptanceCriteria": [
-        "The HTML document <title> is \"Dini GC\" (replacing \"Anonymous Global Chat Website\").",
-        "After refresh, the browser tab title shows \"Dini GC\".",
-        "No routing, domain, or link/URL text is changed as part of this update."
+        "The browser tab shows a custom icon next to the title when loading the site.",
+        "`frontend/index.html` includes appropriate `<link rel=\"icon\" ...>` tag(s) pointing to static image asset(s) served by the frontend.",
+        "The favicon works in modern browsers (Chrome, Safari, Firefox) without requiring any backend changes."
       ],
       "file_operations": [
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Update the <title> text from \"Anonymous Global Chat Website\" to \"Dini GC\" only; do not change any URLs, routing, script src, or other link text."
+          "description": "Add `<link rel=\"icon\">` and related head tags to reference the static favicon assets at `frontend/public/assets/generated/dinigc-favicon.dim_64x64.png` and `frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png` (include an `apple-touch-icon` link for iOS)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add favicon image files as static frontend assets so they are available in build output and can be referenced directly.",
+      "acceptanceCriteria": [
+        "Favicon image files exist under `frontend/public/assets/generated/` and are accessible via direct URL paths after build (e.g., `/assets/generated/...`).",
+        "`frontend/index.html` references the new favicon asset paths and no broken network requests occur for favicon assets."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
+          "operation": "create",
+          "description": "Add the generated favicon asset file so it is served as a static frontend public asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
+          "operation": "create",
+          "description": "Add the generated Apple touch icon asset file so it is served as a static frontend public asset for mobile bookmarks."
         }
       ]
     }

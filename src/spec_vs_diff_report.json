@@ -1,55 +1,73 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-11T01:29:18.323Z",
-  "summary": "REQ-1 appears implemented: the HTML document title in frontend/index.html is set to \"Dini GC\". However, the diff also includes multiple unrelated UI/config changes that were not requested and may violate the constraint to only update the displayed site name/title string.",
-  "missing_requirements": [],
+  "generatedAt": "2026-02-11T01:40:01.699Z",
+  "summary": "Diff adds favicon and apple-touch-icon <link> tags to frontend/index.html, but does not add the required image assets under frontend/public/assets/generated/. Several unrelated UI, styling, query behavior, and config changes appear to have been made beyond the favicon request.",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "Add the favicon image files as static assets in the frontend so they are included in the build output and can be referenced directly from `frontend/index.html`.",
+      "reason": "The diff summary shows no new files added, and there is no evidence that the required PNG files were created under `frontend/public/assets/generated/` (only references to them were added in HTML).",
+      "evidence": [
+        "frontend/index.html",
+        "<file-diff>: ADDED FILES: none"
+      ]
+    }
+  ],
   "hallucinated_features": [
     {
-      "description": "Broad UI/style changes (colors, borders, avatar rendering) unrelated to updating the browser tab title.",
-      "reason": "BuildRequest explicitly limits scope to only updating the displayed site name/title string and lists rebranding/other UI copy changes as non-goals.",
+      "description": "Changed global UI styling/color tokens to use #cde5aa and white; removed borders around the site.",
+      "reason": "Not requested by REQ-2/REQ-3 (favicon support/assets only).",
       "evidence": [
-        "frontend-file-summaries.txt (App.tsx: removed border; ChatScreen/MessageItem: avatar color changes; index.css: palette changes)"
+        "frontend-file-summaries.txt (frontend/src/index.css, frontend/src/App.tsx)"
       ]
     },
     {
-      "description": "JoinScreen behavior changes (avatar preview section removed; enhanced error handling/alerts).",
-      "reason": "Not requested; outside the single-title update requirement.",
+      "description": "JoinScreen onboarding changes (avatar preview removed, enhanced error handling/alerts).",
+      "reason": "Not requested as part of favicon work.",
       "evidence": [
         "frontend-file-summaries.txt (frontend/src/components/JoinScreen.tsx)"
       ]
     },
     {
-      "description": "React Query/backend interaction changes including automatic message refresh and enhanced error categorization.",
-      "reason": "Non-goal specifies no backend changes; these are functional/data-layer behavior changes beyond the title update.",
+      "description": "Chat/Message avatar color behavior changes (letter avatars forced to #cde5aa background and white text; default usernameColor updated).",
+      "reason": "Not requested as part of favicon work.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/components/ChatScreen.tsx, frontend/src/components/MessageItem.tsx)"
+      ]
+    },
+    {
+      "description": "Backend query hook behavior changes: enhanced error categorization in useCreateUser and automatic message refresh every 1.5 seconds.",
+      "reason": "Not requested; also may conflict with constraint of no backend state changes (even if client-only, it is unrelated to favicon).",
       "evidence": [
         "frontend-file-summaries.txt (frontend/src/hooks/useQueries.ts)"
       ]
     },
     {
-      "description": "GIF picker improvements and “proper GIPHY API integration” changes.",
-      "reason": "Not requested; outside the title-only change scope.",
+      "description": "GIF picker improvements and GIPHY API integration changes, including updating the GIPHY API key.",
+      "reason": "Not requested as part of favicon work.",
       "evidence": [
-        "frontend-file-summaries.txt (frontend/src/components/GifPicker.tsx)"
+        "frontend-file-summaries.txt (frontend/src/components/GifPicker.tsx, frontend/src/lib/config.ts)"
       ]
     },
     {
-      "description": "GIPHY API key update in application config.",
-      "reason": "Not requested and unrelated to updating the document title.",
-      "evidence": [
-        "frontend-file-summaries.txt (frontend/src/lib/config.ts)"
-      ]
-    },
-    {
-      "description": "Emoji picker feature allowing users to upload/browse/select custom emojis (or significant changes to that component).",
-      "reason": "Not requested; outside the title-only change scope.",
+      "description": "Emoji picker functionality for uploading/browsing/selecting custom emojis with styling updates.",
+      "reason": "Not requested as part of favicon work.",
       "evidence": [
         "frontend-file-summaries.txt (frontend/src/components/EmojiPicker.tsx)"
       ]
     },
     {
-      "description": "Addition of project_state.json tracking feature requests/status.",
-      "reason": "Not requested as part of updating the website title; adds project metadata not mentioned in BuildRequest.",
+      "description": "Updated HTML document title to \"Dini GC\".",
+      "reason": "BuildRequest focuses on adding a favicon; changing the tab title was not included in REQ-2/REQ-3.",
+      "evidence": [
+        "frontend/index.html",
+        "frontend-file-summaries.txt (frontend/index.html)"
+      ]
+    },
+    {
+      "description": "Modified project_state.json (project metadata/new feature requests tracking).",
+      "reason": "Not requested; also not a frontend runtime change required for favicon behavior.",
       "evidence": [
         "project_state.json"
       ]
@@ -59,7 +77,6 @@
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/index.html",
-    "frontend/src/hooks/useInternetIdentity.ts",
     "project_state.json"
   ]
 }

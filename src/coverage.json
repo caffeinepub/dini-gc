@@ -1,18 +1,18 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-11T01:29:18.325Z",
+  "generatedAt": "2026-02-11T01:40:01.702Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-1",
-        "summary": "Update the website display name shown in the browser tab (HTML document title) from \"Anonymous Global Chat Website\" to \"Dini GC\" without changing the site URL/link.",
+        "id": "REQ-2",
+        "summary": "Add support for a site icon (favicon) so an image appears next to the website name in the browser tab by referencing favicon assets from the HTML head.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/index.html"
@@ -20,24 +20,30 @@
         "matchedFiles": [
           "frontend/index.html"
         ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Add the favicon image files as static assets in the frontend so they are included in the build output and can be referenced directly from `frontend/index.html`.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
+          "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
+          "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png"
+        ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "build-template/Dockerfile",
-    "build-template/LICENSE",
-    "build-template/README.md",
-    "build-template/deploy.sh",
-    "build-template/icp.yaml",
-    "build-template/src/backend/canister.yaml",
-    "build-template/src/frontend/canister.yaml",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/index.html",
-    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
+    "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-website-display-name-shown-in-the-browser-tab-html-document-title-from-anonymous-global-chat-website-to-dini-gc-without-changing-the-site-url-link",
-      "featureTitle": "Update the website display name shown in the browser tab (HTML document title) from \"Anonymous Global Chat Website\" to \"Dini GC\" without changing the site URL/link.",
+      "featureId": "feature-add-support-for-a-site-icon-favicon-so-an-image-appears-next-to-the-website-name-in-the-browser-tab-by-referencing-favicon-assets-from-the-html-head",
+      "featureTitle": "Add support for a site icon (favicon) so an image appears next to the website name in the browser tab by referencing favicon assets from the HTML head.",
       "files": [
         "frontend/index.html"
       ],
@@ -18,7 +18,26 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-1"
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-the-favicon-image-files-as-static-assets-in-the-frontend-so-they-are-included-in-the-build-output-and-can-be-referenced-directly-from-frontend-index-html",
+      "featureTitle": "Add the favicon image files as static assets in the frontend so they are included in the build output and can be referenced directly from `frontend/index.html`.",
+      "files": [],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "http-outcalls@3.0.0",
+        "authorization@4.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
       ],
       "confidence": "high"
     }

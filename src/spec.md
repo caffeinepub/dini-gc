@@ -1,10 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Rename the website’s browser tab/display title to “Dini GC”.
+**Goal:** Add a custom favicon so an image appears next to the website name in the browser tab.
 
 **Planned changes:**
-- Update the HTML document `<title>` text from “Anonymous Global Chat Website” to “Dini GC”.
-- Ensure no changes are made to site URL, routing, links, or any backend components.
+- Add favicon image assets under `frontend/public/assets/generated/` so they are included in the frontend build output.
+- Update `frontend/index.html` to reference the favicon assets via appropriate `<link rel="icon" ...>` tag(s), and include an Apple touch icon link for mobile bookmarks.
 
-**User-visible outcome:** After refreshing, the browser tab title displays “Dini GC” while the site URL and navigation remain unchanged.
+**User-visible outcome:** The site displays a custom icon in the browser tab (and a proper icon when bookmarked on mobile) without any backend changes.
