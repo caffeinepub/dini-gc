@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 7,
   "summary": "Dini GC (Anonymous Global Chat Website) project; rebranding site display name to \"Dini GC\" and exploring changing the site URL via a custom domain (dinigc.com) plus adding an icon next to the website name (favicon).",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Simple flat favicon icon (dinigc-favicon.dim_64x64.png)\n- Flat app icon for mobile bookmarks (dinigc-apple-touch-icon.dim_180x180.png)",
+  "imageRequirements": "## Edit Images\n- Replace the icon artwork with the uploaded dinosaur head image (dinigc-favicon.dim_64x64.png > dinigc-favicon.dim_64x64.png)\n- Replace the icon artwork with the uploaded dinosaur head image (dinigc-apple-touch-icon.dim_180x180.png > dinigc-apple-touch-icon.dim_180x180.png)",
   "existing_features": [
     {
       "id": "feature-update-the-website-display-name-shown-in-the-browser-tab-html-document-title-from-anonymous-global-chat-website-to-dini-gc-without-changing-the-site-url-link",
@@ -30,6 +30,14 @@
         "REQ-3"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-replace-the-existing-favicon-and-apple-touch-icon-static-assets-with-versions-derived-from-the-user-uploaded-image-image-3-png-keeping-the-same-filenames-and-paths-currently-referenced-by-frontend-index-html",
+      "title": "Replace the existing favicon and apple-touch-icon static assets with versions derived from the user-uploaded image (image-3.png), keeping the same filenames and paths currently referenced by frontend/index.html.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -48,6 +56,12 @@
     {
       "id": "AR-3",
       "summary": "Add an image icon next to the website name in the browser tab (favicon).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Set the site favicon to the user-uploaded image (image.png) instead of the current icon asset.",
       "reqIds": [],
       "status": "pending"
     }

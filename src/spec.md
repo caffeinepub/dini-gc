@@ -1,10 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add a custom favicon so an image appears next to the website name in the browser tab.
+**Goal:** Update the site favicon and apple-touch icon to use the user-uploaded dinosaur head image.
 
 **Planned changes:**
-- Add favicon image assets under `frontend/public/assets/generated/` so they are included in the frontend build output.
-- Update `frontend/index.html` to reference the favicon assets via appropriate `<link rel="icon" ...>` tag(s), and include an Apple touch icon link for mobile bookmarks.
+- Regenerate `/assets/generated/dinigc-favicon.dim_64x64.png` from `image-3.png` while keeping the same filename/path.
+- Regenerate `/assets/generated/dinigc-apple-touch-icon.dim_180x180.png` from `image-3.png` while keeping the same filename/path.
+- Keep `frontend/index.html` referencing the exact existing icon asset paths.
 
-**User-visible outcome:** The site displays a custom icon in the browser tab (and a proper icon when bookmarked on mobile) without any backend changes.
+**User-visible outcome:** The browser tab favicon and the mobile home-screen icon reflect the uploaded dinosaur head image after deployment.
