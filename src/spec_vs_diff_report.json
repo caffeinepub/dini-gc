@@ -1,0 +1,65 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T01:29:18.323Z",
+  "summary": "REQ-1 appears implemented: the HTML document title in frontend/index.html is set to \"Dini GC\". However, the diff also includes multiple unrelated UI/config changes that were not requested and may violate the constraint to only update the displayed site name/title string.",
+  "missing_requirements": [],
+  "hallucinated_features": [
+    {
+      "description": "Broad UI/style changes (colors, borders, avatar rendering) unrelated to updating the browser tab title.",
+      "reason": "BuildRequest explicitly limits scope to only updating the displayed site name/title string and lists rebranding/other UI copy changes as non-goals.",
+      "evidence": [
+        "frontend-file-summaries.txt (App.tsx: removed border; ChatScreen/MessageItem: avatar color changes; index.css: palette changes)"
+      ]
+    },
+    {
+      "description": "JoinScreen behavior changes (avatar preview section removed; enhanced error handling/alerts).",
+      "reason": "Not requested; outside the single-title update requirement.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/components/JoinScreen.tsx)"
+      ]
+    },
+    {
+      "description": "React Query/backend interaction changes including automatic message refresh and enhanced error categorization.",
+      "reason": "Non-goal specifies no backend changes; these are functional/data-layer behavior changes beyond the title update.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/hooks/useQueries.ts)"
+      ]
+    },
+    {
+      "description": "GIF picker improvements and “proper GIPHY API integration” changes.",
+      "reason": "Not requested; outside the title-only change scope.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/components/GifPicker.tsx)"
+      ]
+    },
+    {
+      "description": "GIPHY API key update in application config.",
+      "reason": "Not requested and unrelated to updating the document title.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/lib/config.ts)"
+      ]
+    },
+    {
+      "description": "Emoji picker feature allowing users to upload/browse/select custom emojis (or significant changes to that component).",
+      "reason": "Not requested; outside the title-only change scope.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/components/EmojiPicker.tsx)"
+      ]
+    },
+    {
+      "description": "Addition of project_state.json tracking feature requests/status.",
+      "reason": "Not requested as part of updating the website title; adds project metadata not mentioned in BuildRequest.",
+      "evidence": [
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.78,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/index.html",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "project_state.json"
+  ]
+}

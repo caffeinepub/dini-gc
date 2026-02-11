@@ -1,0 +1,23 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Rename HTML document title to Dini GC",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Change the HTML document <title> shown in the browser tab to \"Dini GC\" without altering URLs, routing, or links.",
+      "acceptanceCriteria": [
+        "The HTML document <title> is \"Dini GC\" (replacing \"Anonymous Global Chat Website\").",
+        "After refresh, the browser tab title shows \"Dini GC\".",
+        "No routing, domain, or link/URL text is changed as part of this update."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Update the <title> text from \"Anonymous Global Chat Website\" to \"Dini GC\" only; do not change any URLs, routing, script src, or other link text."
+        }
+      ]
+    }
+  ]
+}

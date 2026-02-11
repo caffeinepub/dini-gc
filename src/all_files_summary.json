@@ -1,0 +1,22 @@
+{
+  "backend/main.mo": "Defines chat backend actor with user accounts, messages, media, emojis, and authorization/storage mixins, including user join logic and profile updates.",
+  "feature_evidence.json": "Feature evidence report referencing index.html update to change the document title to 'Dini GC'.",
+  "frontend-file-summaries.txt": "Contains prewritten summaries of multiple frontend source files for reference.",
+  "frontend/index.css": "Tailwind base and theme variable definitions for light/dark modes with color tokens and global CSS resets.",
+  "frontend/index.html": "HTML entry point setting the document title to 'Dini GC' and loading the root script.",
+  "frontend/src/App.tsx": "Main React component managing user session persistence and routing between JoinScreen and ChatScreen.",
+  "frontend/src/components/ChatScreen.tsx": "Chat UI handling messages, media uploads, emoji/GIF pickers, profile editing, and backend interactions.",
+  "frontend/src/components/EmojiPicker.tsx": "Component for browsing, selecting, and uploading custom emojis with validation and preview.",
+  "frontend/src/components/GifPicker.tsx": "GIF search/trending loader using GIPHY API with error handling and selection support.",
+  "frontend/src/components/JoinScreen.tsx": "UI for joining the chat, handling username entry, optional image upload, and user creation via backend mutations.",
+  "frontend/src/components/MessageItem.tsx": "Renders an individual chat message with avatar, timestamp formatting, content, emojis, and media handling.",
+  "frontend/src/hooks/useActor.ts": "Creates and manages the backend actor instance based on Internet Identity, invalidating dependent queries when it changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides Internet Identity auth context, loading stored identities and exposing login and logout functions.",
+  "frontend/src/hooks/useQueries.ts": "Collection of react-query hooks for messages, counts, media uploads, sending messages, default pictures, and related backend calls.",
+  "frontend/src/index.css": "Tailwind-based global styles defining a white and #cde5aa color theme and global font settings.",
+  "frontend/src/lib/config.ts": "Configuration for Giphy API access, including API key, endpoints, and default query parameters.",
+  "frontend/src/main.tsx": "Application entry point initializing React, react-query, Internet Identity provider, and global CSS.",
+  "frontend/src/utils/urlParams.ts": "Provides helpers for reading URL params from search or hash, storing them in sessionStorage, and clearing them from session or the hash.",
+  "frontend/tailwind.config.js": "Tailwind CSS configuration defining themes, colors, animations, and plugins for typography, container queries, and animations.",
+  "project_state.json": "JSON metadata describing project state, features, and pending requests for the Dini GC application."
+}

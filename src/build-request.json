@@ -1,0 +1,46 @@
+{
+  "kind": "build_request",
+  "title": "Rename site display title to “Dini GC”",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Update the website display name shown in the browser tab (HTML document title) from \"Anonymous Global Chat Website\" to \"Dini GC\" without changing the site URL/link.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "can you make the name of the website \"Anonymous Global Chat Website\" (not the link) to \"Dini GC\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "The HTML document <title> is \"Dini GC\" (replacing \"Anonymous Global Chat Website\").",
+        "After refresh, the browser tab title shows \"Dini GC\".",
+        "No routing, domain, or link/URL text is changed as part of this update."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not change the site URL, links, routing, or canister identifiers; only update the displayed site name/title."
+  ],
+  "nonGoals": [
+    "Rebranding or changing other UI copy beyond the specific \"Anonymous Global Chat Website\" website name/title string.",
+    "Any backend changes."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

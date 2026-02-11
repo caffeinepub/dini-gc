@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        /* Light mode theme - only #cde5aa and white */
+        --background: 1 0 0; /* Pure white #ffffff */
+        --foreground: 0.88 0.10 125; /* #cde5aa in OKLCH */
+        --card: 1 0 0; /* Pure white */
+        --card-foreground: 0.88 0.10 125; /* #cde5aa */
+        --popover: 1 0 0; /* Pure white */
+        --popover-foreground: 0.88 0.10 125; /* #cde5aa */
+        /* Primary color: #cde5aa */
+        --primary: 0.88 0.10 125; /* #cde5aa in OKLCH */
+        --primary-foreground: 1 0 0; /* White text on primary */
+        --secondary: 0.88 0.10 125; /* #cde5aa */
+        --secondary-foreground: 1 0 0; /* White */
+        --muted: 0.96 0 0; /* Very light gray for subtle backgrounds */
+        --muted-foreground: 0.88 0.10 125; /* #cde5aa */
+        --accent: 0.95 0.02 125; /* Very light tint of #cde5aa */
+        --accent-foreground: 0.88 0.10 125; /* #cde5aa */
+        --destructive: 0.55 0.22 25; /* Red for errors */
+        --destructive-foreground: 1 0 0; /* White */
+        --border: 0.88 0.10 125; /* #cde5aa */
+        --input: 0.88 0.10 125; /* #cde5aa */
+        --ring: 0.88 0.10 125; /* #cde5aa */
+        --chart-1: 0.88 0.10 125; /* #cde5aa */
+        --chart-2: 0.88 0.10 125; /* #cde5aa */
+        --chart-3: 0.88 0.10 125; /* #cde5aa */
+        --chart-4: 0.88 0.10 125; /* #cde5aa */
+        --chart-5: 0.88 0.10 125; /* #cde5aa */
+        --sidebar: 1 0 0; /* White */
+        --sidebar-foreground: 0.88 0.10 125; /* #cde5aa */
+        --sidebar-primary: 0.88 0.10 125; /* #cde5aa */
+        --sidebar-primary-foreground: 1 0 0; /* White */
+        --sidebar-accent: 0.95 0.02 125; /* Light tint */
+        --sidebar-accent-foreground: 0.88 0.10 125; /* #cde5aa */
+        --sidebar-border: 0.88 0.10 125; /* #cde5aa */
+        --sidebar-ring: 0.88 0.10 125; /* #cde5aa */
+    }
+
+    * {
+        @apply border-border;
+        font-family: 'Fredoka One', sans-serif;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Fredoka One', sans-serif;
+    }
+}
