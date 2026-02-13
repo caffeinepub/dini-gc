@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-11T02:09:29.695Z",
+  "generatedAt": "2026-02-13T15:40:50.469Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -11,30 +11,34 @@
     "implemented": 1,
     "items": [
       {
-        "id": "REQ-5",
-        "summary": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
+        "id": "REQ-24",
+        "summary": "Create and deploy a new draft build that matches the Version 35 baseline UI/behavior end-to-end (Join flow + Chat flow) with the only functional addition being a Light/Dark theme toggle inside the existing Settings (Edit Profile) dialog after entering chat; the app must load in Light mode by default regardless of OS/system theme, and any user can toggle between Light and Dark using that Settings toggle.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/index.html",
-          "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
-          "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
-          "frontend/scripts/verify-branding-assets.ts",
-          "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md"
+          "frontend/src/hooks/useTheme.ts",
+          "frontend/src/components/SettingsDialog.tsx"
         ],
         "matchedFiles": [
-          "frontend/scripts/verify-branding-assets.ts",
-          "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md"
+          "frontend/index.html",
+          "frontend/src/hooks/useTheme.ts"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-    "frontend/scripts/verify-branding-assets.ts",
+    "frontend/index.html",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useTheme.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -1,84 +1,48 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-11T02:09:29.692Z",
-  "summary": "REQ-5 is a deployment-retry-only request. The diff adds a branding checklist and a local verification script, but does not show any production deployment retry/configuration changes. The diff summary also indicates multiple unrequested UI/feature changes across the frontend, violating the constraint to avoid new product features or UI changes.",
-  "missing_requirements": [
-    {
-      "id": "REQ-5",
-      "requirement": "Retry the production deployment for the latest successful build (Version 33) so production ships the existing branding (title \"Dini GC\" and correct favicon/apple-touch-icon paths).",
-      "reason": "The diff shows documentation and a local verification script, but no evidence of any deployment pipeline/config changes or actions that would actually retry/resolve the production deployment failure. Acceptance criteria about a successful production deploy cannot be satisfied by the shown changes alone.",
-      "evidence": [
-        "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-        "frontend/scripts/verify-branding-assets.ts",
-        "project_state.json"
-      ]
-    }
-  ],
+  "generatedAt": "2026-02-13T15:40:50.466Z",
+  "summary": "REQ-24 theme default-to-light and localStorage persistence appear implemented via a new useTheme hook and an early theme init script in frontend/index.html. However, the diff also introduces unrequested/possibly disallowed changes: backend state/schema changes (theme stored in UserProfile + a migration), branding changes in index.html (title/icons), and indications that an immutable frontend entry file (frontend/src/main.tsx) was modified.",
+  "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "Multiple UI/style changes (palette changes to #cde5aa/white across tokens, removing borders, avatar styling changes).",
-      "reason": "Request explicitly constrained to 'deployment retry only' and 'Do not introduce new product features or UI changes'. The diff summary indicates many UI modifications unrelated to deployment retry.",
+      "description": "Backend schema change to persist a per-user theme in canister state (added Theme type and theme field on UserProfile) plus a state migration to backfill theme=#light.",
+      "reason": "REQ-24 only requires theme preference persistence via localStorage and a Settings toggle; it does not request storing theme in backend user profiles or any backend state changes. The BuildRequest also constrains adding migrations to only when state changes require it; here the state change itself appears unrequested.",
       "evidence": [
-        "frontend-file-summaries.txt (entries for frontend/src/index.css, frontend/src/App.tsx, frontend/src/components/ChatScreen.tsx, frontend/src/components/MessageItem.tsx)"
+        "backend/main.mo",
+        "backend/migration.mo"
       ]
     },
     {
-      "description": "Join screen behavior/UI changes (avatar preview removed; enhanced error handling/visual alerts).",
-      "reason": "Not requested; violates 'deployment retry only' and 'no UI changes' constraint.",
+      "description": "Branding/assets changes in frontend index.html (document title set to \"Dini GC\" and favicon/apple-touch-icon references).",
+      "reason": "Non-goals explicitly exclude custom domain/DNS work and the only requested functional change is the Settings theme toggle + light default; branding/title/icon changes are not requested in REQ-24.",
       "evidence": [
-        "frontend-file-summaries.txt (entry for frontend/src/components/JoinScreen.tsx)"
+        "frontend/index.html"
       ]
     },
     {
-      "description": "React Query behavior changes including enhanced error categorization and automatic message refresh every 1.5 seconds.",
-      "reason": "Not requested; constitutes product behavior changes beyond a deployment retry.",
+      "description": "Modification to an immutable frontend path (frontend/src/main.tsx) to force light-mode theme initialization.",
+      "reason": "BuildRequest constraint: \"Frontend immutable paths must not be modified\" includes frontend/src/main.tsx. The diff summary text indicates main.tsx has theme initialization changes.",
       "evidence": [
-        "frontend-file-summaries.txt (entry for frontend/src/hooks/useQueries.ts)"
+        "frontend-file-summaries.txt (mentions: \"frontend/src/main.tsx\": \"...theme initialization forcing light mode on first load.\")"
       ]
     },
     {
-      "description": "GIF picker changes: improved error handling/loading states/retry mechanisms and 'proper GIPHY API integration' plus recoloring.",
-      "reason": "Not requested; new/changed product functionality and UI changes beyond deployment retry.",
+      "description": "Project/meta documentation/state tracking updates (project_state.json updated; frontend branding verification script + deployment checklist referenced in summaries).",
+      "reason": "REQ-24 does not request project state metadata updates or deployment/branding verification artifacts; requested scope is restoring Version 35 baseline + Settings theme toggle.",
       "evidence": [
-        "frontend-file-summaries.txt (entry for frontend/src/components/GifPicker.tsx)"
-      ]
-    },
-    {
-      "description": "Updated/added GIPHY API key in frontend config.",
-      "reason": "Not requested; configuration/product behavior change unrelated to deployment retry.",
-      "evidence": [
-        "frontend-file-summaries.txt (entry for frontend/src/lib/config.ts)"
-      ]
-    },
-    {
-      "description": "Emoji picker feature allowing users to upload emoji images with names and browse/select them (new capability).",
-      "reason": "Not requested; a new product feature and UI change, explicitly disallowed by constraints.",
-      "evidence": [
-        "frontend-file-summaries.txt (entry for frontend/src/components/EmojiPicker.tsx)"
-      ]
-    },
-    {
-      "description": "Added a deployment branding checklist and a branding-asset verification script.",
-      "reason": "Not requested by REQ-5 (which asked to retry deployment). These are auxiliary tooling/docs and constitute additional scope beyond a deployment retry.",
-      "evidence": [
-        "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-        "frontend/scripts/verify-branding-assets.ts"
-      ]
-    },
-    {
-      "description": "project_state.json updated to mention exploring a custom domain (dinigc.com).",
-      "reason": "Custom domain work is explicitly a non-goal; while this may be documentation/state, it introduces unrequested scope in project metadata.",
-      "evidence": [
-        "project_state.json (summary mentions exploring changing the site URL via a custom domain)"
+        "project_state.json",
+        "frontend-file-summaries.txt"
       ]
     }
   ],
-  "confidence": 0.78,
+  "confidence": 0.62,
   "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-    "frontend/scripts/verify-branding-assets.ts",
+    "frontend/index.html",
+    "frontend/src/hooks/useTheme.ts",
     "project_state.json"
   ]
 }

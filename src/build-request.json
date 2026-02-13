@@ -1,36 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Retry production deployment for Version 33 (Dini GC favicon + title)",
-  "priority": "normal",
+  "title": "Build and deploy Version 35 baseline with Light mode default + Settings theme toggle",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-5",
-      "text": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
-      "target": "unknown",
+      "id": "REQ-24",
+      "text": "Create and deploy a new draft build that matches the Version 35 baseline UI/behavior end-to-end (Join flow + Chat flow) with the only functional addition being a Light/Dark theme toggle inside the existing Settings (Edit Profile) dialog after entering chat; the app must load in Light mode by default regardless of OS/system theme, and any user can toggle between Light and Dark using that Settings toggle.",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-7",
-          "msg-6"
+          "msg-7"
         ],
         "quotes": [
-          "yes",
-          "If you want, I can retry the production deploy for you."
+          "start building (also make the whole website to light mode and anyone can toggle it to dark or from dark to light)"
         ]
       },
       "acceptanceCriteria": [
-        "A production deployment succeeds without a generic \"Deployment error\".",
-        "On the production site, the browser tab title is \"Dini GC\".",
-        "On the production site, the favicon appears and is loaded from the path referenced in frontend/index.html (/assets/generated/dinigc-favicon.dim_64x64.png).",
-        "On the production site, the apple touch icon is referenced as /assets/generated/dinigc-apple-touch-icon.dim_180x180.png."
+        "On a fresh load with no saved theme preference, the site renders in Light mode (no dark styling), regardless of the user's OS/system theme.",
+        "The Light/Dark toggle is available only inside the existing Settings (Edit Profile) dialog in the Chat header (i.e., after joining/entering chat), and it switches the UI between light and dark themes.",
+        "Toggling the theme does not remove, hide, replace, or rearrange any Version 35 UI elements or flows on the Join screen or Chat screen aside from theme styling changes.",
+        "Theme preference persists across page reloads via localStorage; clearing localStorage resets the app to Light mode on next load.",
+        "No additional new UI controls, screens, or features are introduced beyond the Settings theme toggle; the rest of the app matches Version 35 behavior and layout."
       ]
     }
   ],
   "constraints": [
-    "Do not introduce new product features or UI changes; this request is a deployment retry only."
+    "Frontend immutable paths must not be modified: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*.",
+    "Backend must remain a single Motoko actor in backend/main.mo; only add a migration (backend/migration.mo) if state changes require it.",
+    "Do not add, remove, or rearrange any UI/functionality relative to Version 35 except for the existing Light/Dark toggle inside Settings after entering chat.",
+    "Default theme on initial load must be Light mode (not system/OS-driven)."
   ],
   "nonGoals": [
-    "Implementing or configuring a custom domain (e.g., dinigc.com).",
-    "Any new changes to favicon design beyond what is already in the current build."
+    "Custom domain setup (e.g., dinigc.com) or any DNS/domain linking changes.",
+    "Adding new authentication providers beyond Internet Identity.",
+    "Adding any new features unrelated to restoring Version 35 baseline and the Settings theme toggle."
   ],
   "imageRequirements": {
     "required": [],

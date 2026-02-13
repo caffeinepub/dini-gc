@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ThemeProvider } from 'next-themes';
 import JoinScreen from './components/JoinScreen';
 import ChatScreen from './components/ChatScreen';
 import { Toaster } from '@/components/ui/sonner';
@@ -26,7 +25,13 @@ function App() {
     }
   }, []);
 
-  const handleJoin = (profile: UserProfile) => {
+  const handleJoin = (userId: string, username: string, pictureId: string, usernameColor: string) => {
+    const profile: UserProfile = {
+      userId,
+      username,
+      pictureId,
+      usernameColor,
+    };
     setUserProfile(profile);
     sessionStorage.setItem('chatUserProfile', JSON.stringify(profile));
   };
@@ -36,26 +41,18 @@ function App() {
     sessionStorage.removeItem('chatUserProfile');
   };
 
-  const handleProfileUpdate = (profile: UserProfile) => {
-    setUserProfile(profile);
-    sessionStorage.setItem('chatUserProfile', JSON.stringify(profile));
-  };
-
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-background">
-        {!userProfile ? (
-          <JoinScreen onJoin={handleJoin} />
-        ) : (
-          <ChatScreen 
-            userProfile={userProfile} 
-            onLeave={handleLeave}
-            onProfileUpdate={handleProfileUpdate}
-          />
-        )}
-        <Toaster />
-      </div>
-    </ThemeProvider>
+    <div className="min-h-screen bg-background">
+      {!userProfile ? (
+        <JoinScreen onJoin={handleJoin} />
+      ) : (
+        <ChatScreen 
+          userProfile={userProfile} 
+          onLeave={handleLeave}
+        />
+      )}
+      <Toaster />
+    </div>
   );
 }
 

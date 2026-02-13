@@ -1,42 +1,33 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Version 33 production branding deployment verification (Dini GC title + favicon)",
+  "title": "Version 35 baseline: Light mode default + Settings theme toggle (persisted)",
   "requirements": [
     {
-      "id": "REQ-5",
-      "summary": "Ensure Version 33 ships with the intended branding in production by verifying the HTML document title and the referenced favicon/apple-touch-icon asset paths exist and are correct.",
+      "id": "REQ-24",
+      "summary": "Ensure Version 35 Join + Chat flows remain unchanged while enforcing Light mode by default and providing a persisted Light/Dark toggle only inside the existing Settings (Edit Profile) dialog in Chat.",
       "acceptanceCriteria": [
-        "A production deployment succeeds without a generic \"Deployment error\".",
-        "On the production site, the browser tab title is \"Dini GC\".",
-        "On the production site, the favicon appears and is loaded from the path referenced in frontend/index.html (/assets/generated/dinigc-favicon.dim_64x64.png).",
-        "On the production site, the apple touch icon is referenced as /assets/generated/dinigc-apple-touch-icon.dim_180x180.png."
+        "On a fresh load with no saved theme preference, the site renders in Light mode (no dark styling), regardless of the user's OS/system theme.",
+        "The Light/Dark toggle is available only inside the existing Settings (Edit Profile) dialog in the Chat header (i.e., after joining/entering chat), and it switches the UI between light and dark themes.",
+        "Toggling the theme does not remove, hide, replace, or rearrange any Version 35 UI elements or flows on the Join screen or Chat screen aside from theme styling changes.",
+        "Theme preference persists across page reloads via localStorage; clearing localStorage resets the app to Light mode on next load.",
+        "No additional new UI controls, screens, or features are introduced beyond the Settings theme toggle; the rest of the app matches Version 35 behavior and layout."
       ],
       "file_operations": [
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Confirm the HTML <title> remains exactly \"Dini GC\" and that the favicon and apple-touch-icon <link> tags reference the exact production paths /assets/generated/dinigc-favicon.dim_64x64.png and /assets/generated/dinigc-apple-touch-icon.dim_180x180.png (no behavioral/UI changes beyond ensuring these exact references)."
+          "description": "Add an early (pre-React) theme initialization script that sets documentElement theme class based on localStorage (defaulting to Light) to guarantee Light mode on first paint regardless of OS/system theme and to avoid any dark-mode flash."
         },
         {
-          "path": "frontend/public/assets/generated/dinigc-favicon.dim_64x64.png",
+          "path": "frontend/src/hooks/useTheme.ts",
           "operation": "modify",
-          "description": "Verify the favicon asset is present at this exact path in the frontend static assets so it is included in the production build output."
+          "description": "Harden theme state management to use the centralized DEFAULT_THEME, read/write the existing localStorage theme preference, and always apply exactly one theme class (light/dark) to documentElement. Ensure clearing localStorage results in Light mode on next load."
         },
         {
-          "path": "frontend/public/assets/generated/dinigc-apple-touch-icon.dim_180x180.png",
+          "path": "frontend/src/components/SettingsDialog.tsx",
           "operation": "modify",
-          "description": "Verify the apple touch icon asset is present at this exact path in the frontend static assets so it is included in the production build output."
-        },
-        {
-          "path": "frontend/scripts/verify-branding-assets.ts",
-          "operation": "create",
-          "description": "Add a small pre-deploy verification script that checks (a) frontend/index.html contains title \"Dini GC\" and the exact icon hrefs, and (b) the referenced static asset files exist in frontend/public/assets/generated/; keep this as a deployment guardrail and do not change any runtime UI behavior."
-        },
-        {
-          "path": "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-          "operation": "create",
-          "description": "Document a minimal deployment checklist for Version 33 branding verification (title + favicon + apple-touch-icon paths) to help ensure the production deployment ships the intended assets without introducing product/UI changes."
+          "description": "Confirm the theme toggle remains only within this existing Settings (Edit Profile) dialog and is wired to useTheme without introducing any additional UI controls. Use the existing shadcn-ui Switch component to provide the toggle behavior. Verify the component's usage instructions before implementing."
         }
       ]
     }

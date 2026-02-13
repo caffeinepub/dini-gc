@@ -5,51 +5,84 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --radius: 0.75rem;
-        /* Light mode theme - only #cde5aa and white */
-        --background: 1 0 0; /* Pure white #ffffff */
-        --foreground: 0.88 0.10 125; /* #cde5aa in OKLCH */
-        --card: 1 0 0; /* Pure white */
-        --card-foreground: 0.88 0.10 125; /* #cde5aa */
-        --popover: 1 0 0; /* Pure white */
-        --popover-foreground: 0.88 0.10 125; /* #cde5aa */
-        /* Primary color: #cde5aa */
-        --primary: 0.88 0.10 125; /* #cde5aa in OKLCH */
-        --primary-foreground: 1 0 0; /* White text on primary */
-        --secondary: 0.88 0.10 125; /* #cde5aa */
-        --secondary-foreground: 1 0 0; /* White */
-        --muted: 0.96 0 0; /* Very light gray for subtle backgrounds */
-        --muted-foreground: 0.88 0.10 125; /* #cde5aa */
-        --accent: 0.95 0.02 125; /* Very light tint of #cde5aa */
-        --accent-foreground: 0.88 0.10 125; /* #cde5aa */
-        --destructive: 0.55 0.22 25; /* Red for errors */
-        --destructive-foreground: 1 0 0; /* White */
-        --border: 0.88 0.10 125; /* #cde5aa */
-        --input: 0.88 0.10 125; /* #cde5aa */
-        --ring: 0.88 0.10 125; /* #cde5aa */
-        --chart-1: 0.88 0.10 125; /* #cde5aa */
-        --chart-2: 0.88 0.10 125; /* #cde5aa */
-        --chart-3: 0.88 0.10 125; /* #cde5aa */
-        --chart-4: 0.88 0.10 125; /* #cde5aa */
-        --chart-5: 0.88 0.10 125; /* #cde5aa */
-        --sidebar: 1 0 0; /* White */
-        --sidebar-foreground: 0.88 0.10 125; /* #cde5aa */
-        --sidebar-primary: 0.88 0.10 125; /* #cde5aa */
-        --sidebar-primary-foreground: 1 0 0; /* White */
-        --sidebar-accent: 0.95 0.02 125; /* Light tint */
-        --sidebar-accent-foreground: 0.88 0.10 125; /* #cde5aa */
-        --sidebar-border: 0.88 0.10 125; /* #cde5aa */
-        --sidebar-ring: 0.88 0.10 125; /* #cde5aa */
-    }
+  :root {
+    --background: 1 0 0;
+    --foreground: 0.2 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.2 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.2 0 0;
+    --primary: 0.88 0.10 125;
+    --primary-foreground: 1 0 0;
+    --secondary: 0.95 0.05 125;
+    --secondary-foreground: 0.2 0 0;
+    --muted: 0.95 0.02 125;
+    --muted-foreground: 0.5 0 0;
+    --accent: 0.92 0.08 125;
+    --accent-foreground: 0.2 0 0;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 1 0 0;
+    --border: 0.88 0.10 125;
+    --input: 0.88 0.10 125;
+    --ring: 0.88 0.10 125;
+    --chart-1: 0.65 0.15 145;
+    --chart-2: 0.75 0.12 85;
+    --chart-3: 0.70 0.18 200;
+    --chart-4: 0.60 0.20 50;
+    --chart-5: 0.80 0.10 300;
+    --radius: 0.5rem;
+    --sidebar: 1 0 0;
+    --sidebar-foreground: 0.2 0 0;
+    --sidebar-primary: 0.88 0.10 125;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.95 0.05 125;
+    --sidebar-accent-foreground: 0.2 0 0;
+    --sidebar-border: 0.88 0.10 125;
+    --sidebar-ring: 0.88 0.10 125;
+  }
 
-    * {
-        @apply border-border;
-        font-family: 'Fredoka One', sans-serif;
-    }
-    
-    body {
-        @apply bg-background text-foreground;
-        font-family: 'Fredoka One', sans-serif;
-    }
+  .dark {
+    --background: 0.2 0 0;
+    --foreground: 0.95 0 0;
+    --card: 0.25 0 0;
+    --card-foreground: 0.95 0 0;
+    --popover: 0.25 0 0;
+    --popover-foreground: 0.95 0 0;
+    --primary: 0.88 0.10 125;
+    --primary-foreground: 0.2 0 0;
+    --secondary: 0.30 0.05 125;
+    --secondary-foreground: 0.95 0 0;
+    --muted: 0.30 0.02 125;
+    --muted-foreground: 0.65 0 0;
+    --accent: 0.35 0.08 125;
+    --accent-foreground: 0.95 0 0;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 1 0 0;
+    --border: 0.40 0.08 125;
+    --input: 0.40 0.08 125;
+    --ring: 0.88 0.10 125;
+    --chart-1: 0.65 0.15 145;
+    --chart-2: 0.75 0.12 85;
+    --chart-3: 0.70 0.18 200;
+    --chart-4: 0.60 0.20 50;
+    --chart-5: 0.80 0.10 300;
+    --sidebar: 0.25 0 0;
+    --sidebar-foreground: 0.95 0 0;
+    --sidebar-primary: 0.88 0.10 125;
+    --sidebar-primary-foreground: 0.2 0 0;
+    --sidebar-accent: 0.30 0.05 125;
+    --sidebar-accent-foreground: 0.95 0 0;
+    --sidebar-border: 0.40 0.08 125;
+    --sidebar-ring: 0.88 0.10 125;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Fredoka One', system-ui, -apple-system, sans-serif;
+  }
 }

@@ -2,11 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-retry-the-production-deployment-for-the-latest-successful-build-version-33-ensuring-the-already-updated-branding-assets-are-what-ship-to-production-html-document-title-is-dini-gc-and-the-referenced-favicon-apple-touch-icon-assets-load-correctly-from-the-production-site",
-      "featureTitle": "Retry the production deployment for the latest successful build (Version 33), ensuring the already-updated branding assets are what ship to production (HTML document title is \"Dini GC\" and the referenced favicon/apple-touch-icon assets load correctly from the production site).",
+      "featureId": "feature-create-and-deploy-a-new-draft-build-that-matches-the-version-35-baseline-ui-behavior-end-to-end-join-flow-chat-flow-with-the-only-functional-addition-being-a-light-dark-theme-toggle-inside-the-existing-settings-edit-profile-dialog-after-entering-chat-the-app-must-load-in-light-mode-by-default-regardless-of-os-system-theme-and-any-user-can-toggle-between-light-and-dark-using-that-settings-toggle",
+      "featureTitle": "Create and deploy a new draft build that matches the Version 35 baseline UI/behavior end-to-end (Join flow + Chat flow) with the only functional addition being a Light/Dark theme toggle inside the existing Settings (Edit Profile) dialog after entering chat; the app must load in Light mode by default regardless of OS/system theme, and any user can toggle between Light and Dark using that Settings toggle.",
       "files": [
-        "frontend/DEPLOYMENT-BRANDING-CHECKLIST.md",
-        "frontend/scripts/verify-branding-assets.ts"
+        "frontend/index.html",
+        "frontend/src/hooks/useTheme.ts"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -19,7 +19,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-5"
+        "REQ-24"
       ],
       "confidence": "high"
     }

@@ -1,11 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Retry the production deployment for Version 33 so the updated branding ships correctly (document title “Dini GC” and favicon/apple-touch-icon load from the production site).
+**Goal:** Deploy a new draft build that matches the Version 35 baseline Join + Chat flows end-to-end, while making Light mode the default and adding a Light/Dark toggle inside the existing Settings (Edit Profile) dialog after entering chat.
 
 **Planned changes:**
-- Retry production deployment for the latest successful build (Version 33).
-- Verify production serves the updated HTML document title (“Dini GC”).
-- Verify production loads the favicon and apple touch icon from the paths referenced in `frontend/index.html`.
+- Restore/ensure Version 35 baseline UI and behavior across the Join flow and Chat flow with no layout or feature changes.
+- Make the app load in Light mode by default on fresh load, regardless of OS/system theme.
+- Add a Light/Dark theme toggle inside the existing Settings (Edit Profile) dialog accessible from the Chat header (only after entering chat).
+- Persist the user’s theme preference in localStorage; if localStorage is cleared, default back to Light mode on next load.
 
-**User-visible outcome:** The production site deploys successfully, shows “Dini GC” in the browser tab title, and displays the correct favicon and apple touch icon loaded from the expected asset URLs.
+**User-visible outcome:** Users see the app in Light mode by default, and after entering chat can open Settings (Edit Profile) to toggle between Light and Dark themes, with their choice saved across reloads.

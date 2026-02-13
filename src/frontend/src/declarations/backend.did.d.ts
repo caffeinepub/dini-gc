@@ -36,9 +36,12 @@ export interface Message {
 }
 export type MessageId = bigint;
 export type PictureId = string;
+export type Theme = { 'dark' : null } |
+  { 'light' : null };
 export type Time = bigint;
 export type UserId = string;
 export interface UserProfile {
+  'theme' : Theme,
   'username' : string,
   'usernameColor' : string,
   'profilePictureId' : PictureId,
@@ -76,6 +79,7 @@ export interface _SERVICE {
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addDefaultPicture' : ActorMethod<[ExternalBlob, PictureId], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'deleteMessage' : ActorMethod<[MessageId], undefined>,
   'getAllEmojis' : ActorMethod<[], Array<Emoji>>,
   'getAllMessages' : ActorMethod<[], Array<Message>>,
   'getAllMessagesMedia' : ActorMethod<[], Array<[Message, Array<MediaFile>]>>,
@@ -103,6 +107,7 @@ export interface _SERVICE {
     [string, UserId, Array<bigint>, Array<EmojiId>],
     MessageId
   >,
+  'updateThemePreference' : ActorMethod<[UserId, Theme], undefined>,
   'updateUserProfile' : ActorMethod<
     [UserId, string, PictureId, string],
     undefined

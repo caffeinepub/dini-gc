@@ -26,13 +26,13 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
+export const MessageId = IDL.Nat;
 export const EmojiId = IDL.Text;
 export const Emoji = IDL.Record({
   'id' : EmojiId,
   'blob' : ExternalBlob,
   'name' : IDL.Text,
 });
-export const MessageId = IDL.Nat;
 export const UserId = IDL.Text;
 export const Time = IDL.Int;
 export const MediaType = IDL.Variant({
@@ -54,7 +54,9 @@ export const Message = IDL.Record({
   'timestamp' : Time,
   'mediaFiles' : IDL.Vec(MediaFile),
 });
+export const Theme = IDL.Variant({ 'dark' : IDL.Null, 'light' : IDL.Null });
 export const UserProfile = IDL.Record({
+  'theme' : Theme,
   'username' : IDL.Text,
   'usernameColor' : IDL.Text,
   'profilePictureId' : PictureId,
@@ -90,6 +92,7 @@ export const idlService = IDL.Service({
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addDefaultPicture' : IDL.Func([ExternalBlob, PictureId], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'deleteMessage' : IDL.Func([MessageId], [], []),
   'getAllEmojis' : IDL.Func([], [IDL.Vec(Emoji)], ['query']),
   'getAllMessages' : IDL.Func([], [IDL.Vec(Message)], ['query']),
   'getAllMessagesMedia' : IDL.Func(
@@ -131,6 +134,7 @@ export const idlService = IDL.Service({
       [MessageId],
       [],
     ),
+  'updateThemePreference' : IDL.Func([UserId, Theme], [], []),
   'updateUserProfile' : IDL.Func(
       [UserId, IDL.Text, PictureId, IDL.Text],
       [],
@@ -162,13 +166,13 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
+  const MessageId = IDL.Nat;
   const EmojiId = IDL.Text;
   const Emoji = IDL.Record({
     'id' : EmojiId,
     'blob' : ExternalBlob,
     'name' : IDL.Text,
   });
-  const MessageId = IDL.Nat;
   const UserId = IDL.Text;
   const Time = IDL.Int;
   const MediaType = IDL.Variant({
@@ -190,7 +194,9 @@ export const idlFactory = ({ IDL }) => {
     'timestamp' : Time,
     'mediaFiles' : IDL.Vec(MediaFile),
   });
+  const Theme = IDL.Variant({ 'dark' : IDL.Null, 'light' : IDL.Null });
   const UserProfile = IDL.Record({
+    'theme' : Theme,
     'username' : IDL.Text,
     'usernameColor' : IDL.Text,
     'profilePictureId' : PictureId,
@@ -226,6 +232,7 @@ export const idlFactory = ({ IDL }) => {
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addDefaultPicture' : IDL.Func([ExternalBlob, PictureId], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'deleteMessage' : IDL.Func([MessageId], [], []),
     'getAllEmojis' : IDL.Func([], [IDL.Vec(Emoji)], ['query']),
     'getAllMessages' : IDL.Func([], [IDL.Vec(Message)], ['query']),
     'getAllMessagesMedia' : IDL.Func(
@@ -267,6 +274,7 @@ export const idlFactory = ({ IDL }) => {
         [MessageId],
         [],
       ),
+    'updateThemePreference' : IDL.Func([UserId, Theme], [], []),
     'updateUserProfile' : IDL.Func(
         [UserId, IDL.Text, PictureId, IDL.Text],
         [],

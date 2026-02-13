@@ -1,10 +1,21 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 9,
-  "summary": "Dini GC (Anonymous Global Chat Website) project; rebranding site display name to \"Dini GC\" and exploring changing the site URL via a custom domain (dinigc.com) plus adding an icon next to the website name (favicon).",
-  "architectural_notes": [],
+  "projectStateVersion": 27,
+  "summary": "Dini GC (Anonymous Global Chat Website) project; rebranding to \"Dini GC\" (title + favicon), exploring custom domain (dinigc.com), and adding a Settings toggle to switch between light and dark mode.",
+  "architectural_notes": [
+    "Baseline/reference should match Version 35 (user-uploaded image represents Version 35).",
+    "Theme behavior requirement: default on initial load must be Light mode (white background); Light/Dark toggle only changes theme when user selects it in Settings after entering the chat.",
+    "Strict scope constraint reiterated: only add the Light/Dark mode toggle in Settings after entering the actual website/chat; do not remove or add any other UI/features.",
+    "User requested reverting to Version 35 as the baseline target state.",
+    "User explicitly confirmed requirement: restore full Version 35 UI/behavior exactly, with the ONLY allowed change being the Light/Dark toggle inside Settings (after entering chat), and default the whole site to Light mode on initial load while allowing anyone to toggle Light↔Dark via that Settings toggle."
+  ],
   "known_issues": [
-    "Production deployment failed with a generic \"Deployment error\"; needs retry to push latest build (Version 33) to production."
+    "Production deployment failed with a generic \"Deployment error\"; needs retry to push latest build (Version 33) to production.",
+    "Regression after deploying Draft Version 36: the website is missing previously existing/\"normal\" content; theme toggle change appears to have removed/broken other parts of the app. Needs investigation and restoration while keeping only the requested Settings theme toggle change.",
+    "Restored UI/layout in Version 37 still does not match the user-provided reference image (image.png); needs further refinement to match the uploaded design.",
+    "Current deployed/build state does not match the Version 35 reference (user reports the site should look like Version 35 aside from adding the Settings theme toggle).",
+    "User reports the latest draft (Version 39) still does not match the Version 35 reference baseline.",
+    "Draft Version 41 deployed/revert claimed live, but user reports it still does not match/revert to Version 35 baseline; only requested change remains the Settings Light/Dark toggle."
   ],
   "isFixRequest": true,
   "existing_features": [
@@ -47,6 +58,150 @@
         "REQ-5"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-expose-the-new-delete-message-backend-method-to-the-frontend-via-a-new-react-query-mutation-hook-and-invalidate-the-same-queries-as-sending-at-minimum-messages-and-messagecount-after-a-successful-deletion",
+      "title": "Expose the new delete-message backend method to the frontend via a new React Query mutation hook, and invalidate the same queries as sending (at minimum: ['messages'] and ['messageCount']) after a successful deletion.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-delete-button-in-the-message-ui-for-messages-sent-by-the-current-user-isownmessage-true-the-button-must-work-for-any-message-content-type-text-only-emoji-only-media-only-such-as-gif-image-video-or-any-combination-and-should-ask-for-confirmation-before-deleting",
+      "title": "Add a delete button in the message UI for messages sent by the current user (isOwnMessage === true). The button must work for any message content type (text-only, emoji-only, media-only such as GIF/image/video, or any combination) and should ask for confirmation before deleting.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-light-dark-mode-toggle-control-inside-the-existing-settings-edit-profile-dialog-in-the-chat-header-so-the-user-can-switch-the-ui-theme-between-light-and-dark-modes",
+      "title": "Add a Light/Dark mode toggle control inside the existing Settings (Edit Profile) dialog in the chat header so the user can switch the UI theme between light and dark modes.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-dark-theme-by-defining-dark-mode-css-variables-and-ensure-global-styling-switches-correctly-when-the-dark-class-is-applied-to-the-document-as-used-by-themeprovider",
+      "title": "Implement a dark theme by defining dark-mode CSS variables and ensure global styling switches correctly when the `dark` class is applied to the document (as used by ThemeProvider).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-screens-components-that-hardcode-light-colors-e-g-bg-white-so-they-use-the-theme-token-classes-e-g-bg-background-text-foreground-bg-card-and-correctly-respond-to-light-dark-mode-changes",
+      "title": "Update screens/components that hardcode light colors (e.g., `bg-white`) so they use the theme token classes (e.g., `bg-background`, `text-foreground`, `bg-card`) and correctly respond to light/dark mode changes.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-investigate-and-fix-the-regression-introduced-in-draft-version-36-where-previously-existing-normal-website-content-is-missing-or-no-longer-appears-and-restore-the-app-to-match-the-last-known-good-behavior-and-ui-e-g-join-screen-and-chat-screen-content-flows-while-keeping-the-light-dark-mode-toggle-available-inside-the-existing-settings-edit-profile-dialog-in-the-chat-header",
+      "title": "Investigate and fix the regression introduced in Draft Version 36 where previously existing/\"normal\" website content is missing or no longer appears, and restore the app to match the last known-good behavior and UI (e.g., Join screen and Chat screen content/flows) while keeping the Light/Dark mode toggle available inside the existing Settings (Edit Profile) dialog in the chat header.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-light-dark-mode-toggle-remains-accessible-only-within-the-existing-settings-edit-profile-dialog-in-the-chat-header-i-e-after-entering-the-actual-chat-and-does-not-remove-replace-or-hide-any-previously-existing-settings-fields-or-chat-controls",
+      "title": "Ensure the Light/Dark mode toggle remains accessible only within the existing Settings (Edit Profile) dialog in the chat header (i.e., after entering the actual chat), and does not remove, replace, or hide any previously existing settings fields or chat controls.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-join-screen-ui-to-visually-match-the-uploaded-reference-design-image-4-png-while-preserving-the-existing-join-flow-enter-username-optionally-upload-a-profile-picture-then-join-the-join-screen-should-use-the-same-overall-composition-as-the-reference-a-centered-card-with-a-thick-light-green-border-subtle-drop-shadow-a-top-mascot-image-a-wide-rounded-light-green-title-bar-reading-join-the-dini-gc-a-short-subtitle-line-then-the-username-field-then-a-dashed-upload-area-for-profile-picture-then-a-full-width-rounded-join-button-at-the-bottom",
+      "title": "Update the Join screen UI to visually match the uploaded reference design (image-4.png), while preserving the existing join flow (enter username, optionally upload a profile picture, then join). The Join screen should use the same overall composition as the reference: a centered card with a thick light-green border, subtle drop shadow, a top mascot image, a wide rounded light-green title bar reading \"Join the Dini GC\", a short subtitle line, then the username field, then a dashed upload area for profile picture, then a full-width rounded join button at the bottom.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-simplify-the-join-screen-controls-to-match-the-reference-design-remove-or-hide-behind-a-clearly-secondary-advanced-interaction-any-join-screen-only-fields-sections-that-are-not-present-in-the-reference-e-g-the-username-color-picker-and-the-default-avatar-grid-keep-the-ability-to-upload-a-custom-avatar-on-the-join-screen-and-keep-the-rest-of-the-application-behavior-unchanged",
+      "title": "Simplify the Join screen controls to match the reference design: remove (or hide behind a clearly secondary/advanced interaction) any Join-screen-only fields/sections that are not present in the reference (e.g., the username color picker and the default avatar grid). Keep the ability to upload a custom avatar on the Join screen and keep the rest of the application behavior unchanged.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-replace-static-frontend-assets-needed-for-the-join-screen-to-match-the-reference-design-including-the-mascot-image-used-at-the-top-of-the-card-and-ensure-the-join-screen-references-the-correct-committed-asset-path-s",
+      "title": "Add/replace static frontend assets needed for the Join screen to match the reference design, including the mascot image used at the top of the card, and ensure the Join screen references the correct committed asset path(s).",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-site-loads-in-light-mode-by-default-white-light-background-across-the-app-regardless-of-the-user-s-os-system-theme-users-may-still-switch-to-dark-mode-only-via-the-existing-light-dark-toggle-inside-the-settings-edit-profile-dialog-after-entering-the-chat",
+      "title": "Ensure the site loads in Light Mode by default (white/light background across the app) regardless of the user’s OS/system theme; users may still switch to Dark Mode only via the existing Light/Dark toggle inside the Settings (Edit Profile) dialog after entering the chat.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-do-not-add-remove-or-rearrange-any-ui-or-functionality-beyond-enforcing-light-mode-as-the-default-on-initial-load-preserve-the-version-35-look-behavior-as-shown-by-the-user-s-uploaded-reference-image-4-png-image-5-png-with-the-only-difference-being-the-presence-of-the-light-dark-toggle-inside-settings-after-entering-the-chat",
+      "title": "Do not add, remove, or rearrange any UI or functionality beyond enforcing Light Mode as the default on initial load; preserve the Version 35 look/behavior as shown by the user’s uploaded reference (image-4.png/image-5.png), with the only difference being the presence of the Light/Dark toggle inside Settings after entering the chat.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-current-draft-match-the-version-35-baseline-ui-behavior-end-to-end-join-chat-flows-with-the-only-allowed-change-being-the-existing-light-dark-theme-toggle-inside-the-settings-edit-profile-dialog-after-entering-the-chat",
+      "title": "Make the current draft match the Version 35 baseline UI/behavior end-to-end (Join + Chat flows) with the only allowed change being the existing Light/Dark theme toggle inside the Settings (Edit Profile) dialog after entering the chat.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revert-the-application-frontend-and-backend-behavior-as-needed-to-match-version-35-end-to-end-so-the-join-flow-and-chat-flow-behave-and-render-as-they-did-in-version-35-removing-any-changes-introduced-after-version-35-unless-they-were-already-present-in-version-35",
+      "title": "Revert the application (frontend and backend behavior as needed) to match Version 35 end-to-end, so the Join flow and Chat flow behave and render as they did in Version 35, removing any changes introduced after Version 35 unless they were already present in Version 35.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revert-the-current-frontend-ui-ux-and-user-flows-to-match-the-version-35-baseline-end-to-end-join-flow-chat-flow-removing-undoing-any-changes-introduced-after-version-35-that-alter-layout-behavior-available-controls-or-message-rendering-except-for-the-single-allowed-change-keeping-a-light-dark-mode-toggle-in-settings-after-entering-chat",
+      "title": "Revert the current frontend UI/UX and user flows to match the Version 35 baseline end-to-end (Join flow + Chat flow), removing/undoing any changes introduced after Version 35 that alter layout, behavior, available controls, or message rendering, except for the single allowed change: keeping a Light/Dark mode toggle in Settings after entering chat.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-only-functional-addition-relative-to-version-35-is-a-light-dark-mode-toggle-that-is-accessible-exclusively-inside-the-existing-settings-edit-profile-dialog-in-the-chat-header-after-the-user-has-entered-the-chat-do-not-move-it-elsewhere-and-do-not-remove-replace-hide-any-pre-existing-settings-fields-or-chat-controls",
+      "title": "Ensure the only functional addition relative to Version 35 is a Light/Dark mode toggle that is accessible exclusively inside the existing Settings (Edit Profile) dialog in the chat header after the user has entered the chat; do not move it elsewhere, and do not remove/replace/hide any pre-existing Settings fields or chat controls.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-default-the-application-to-light-mode-on-initial-load-regardless-of-the-user-s-os-system-theme-while-still-allowing-the-user-to-switch-to-dark-mode-only-via-the-settings-edit-profile-theme-toggle-after-entering-the-chat",
+      "title": "Default the application to Light mode on initial load regardless of the user’s OS/system theme, while still allowing the user to switch to Dark mode only via the Settings (Edit Profile) theme toggle after entering the chat.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-and-deploy-a-new-draft-build-that-matches-the-version-35-baseline-ui-behavior-end-to-end-join-flow-chat-flow-with-the-only-functional-addition-being-a-light-dark-theme-toggle-inside-the-existing-settings-edit-profile-dialog-after-entering-chat-the-app-must-load-in-light-mode-by-default-regardless-of-os-system-theme-and-any-user-can-toggle-between-light-and-dark-using-that-settings-toggle",
+      "title": "Create and deploy a new draft build that matches the Version 35 baseline UI/behavior end-to-end (Join flow + Chat flow) with the only functional addition being a Light/Dark theme toggle inside the existing Settings (Edit Profile) dialog after entering chat; the app must load in Light mode by default regardless of OS/system theme, and any user can toggle between Light and Dark using that Settings toggle.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -71,6 +226,32 @@
     {
       "id": "AR-4",
       "summary": "Set the site favicon to the user-uploaded image (image.png) instead of the current icon asset.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add a delete message button so users can delete messages they have sent (text, GIFs, images, videos, etc.).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add a backend capability to delete a chat message by its messageId, enforcing that only the original sender (message.userId) can delete it (based on the caller principal owning that username in the existing userPrincipals mapping). If the message does not exist, return a clear error.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add a light/dark mode toggle button in Settings to switch the UI theme.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Revert/rollback the app to Version 35 baseline (restore Version 35 UI/behavior).",
       "reqIds": [],
       "status": "pending"
     }

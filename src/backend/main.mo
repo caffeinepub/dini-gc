@@ -1,4 +1,3 @@
-import Array "mo:core/Array";
 import Map "mo:core/Map";
 import Text "mo:core/Text";
 import Nat "mo:core/Nat";
@@ -12,7 +11,9 @@ import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
+import Migration "migration";
 
+(with migration = Migration.run)
 actor {
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
@@ -36,10 +37,13 @@ actor {
     fileName : Text;
   };
 
+  type Theme = { #light; #dark };
+
   type UserProfile = {
     username : Text;
     profilePictureId : PictureId;
     usernameColor : Text;
+    theme : Theme;
   };
 
   type Emoji = {
@@ -84,14 +88,6 @@ actor {
     // No authorization check - anonymous users (guests) can join the chat
     let userId = if (username == "") { "Anonymous" } else { username };
 
-    // Sanitize anonymous usernames by appending count to avoid duplicates
-    func sanitizeAnonName(name : Text) : Text {
-      switch (userProfiles.get(name)) {
-        case (null) { name };
-        case (?_) { sanitizeAnonName(name # "1") };
-      };
-    };
-
     // Check if username already exists for the caller's principal
     let callerText = caller.toText();
 
@@ -105,16 +101,12 @@ actor {
         };
       };
       case (null) {
-        let newUsername = if (userId == "Anonymous") {
-          anonymousCount += 1;
-          sanitizeAnonName("Anonymous" # anonymousCount.toText());
-        } else {
-          userId;
-        };
+        let newUsername = userId;
         let newUserProfile : UserProfile = {
           username = newUsername;
           profilePictureId;
           usernameColor;
+          theme = #light;
         };
         userProfiles.add(newUsername, newUserProfile);
         userPrincipals.add(newUsername, callerText);
@@ -139,11 +131,38 @@ actor {
           case (null) {
             Runtime.trap("User profile not found");
           };
-          case (?_) {
+          case (?oldProfile) {
             let updatedProfile : UserProfile = {
               username;
               profilePictureId;
               usernameColor;
+              theme = oldProfile.theme;
+            };
+            userProfiles.add(userId, updatedProfile);
+          };
+        };
+      };
+    };
+  };
+
+  public shared ({ caller }) func updateThemePreference(userId : UserId, theme : Theme) : async () {
+    // Verify ownership: caller must own the profile they're updating
+    let callerText = caller.toText();
+    switch (userPrincipals.get(userId)) {
+      case (null) {
+        Runtime.trap("Unauthorized: You must join the chat before updating your theme preference");
+      };
+      case (?principal) {
+        if (principal != callerText) {
+          Runtime.trap("Unauthorized: You can only update your own theme preference");
+        };
+        switch (userProfiles.get(userId)) {
+          case (null) {
+            Runtime.trap("User profile not found");
+          };
+          case (?oldProfile) {
+            let updatedProfile : UserProfile = {
+              oldProfile with theme;
             };
             userProfiles.add(userId, updatedProfile);
           };
@@ -188,6 +207,34 @@ actor {
         messages.add(newMessageId, message);
         nextMessageId += 1;
         newMessageId;
+      };
+    };
+  };
+
+  // Delete Message
+  public shared ({ caller }) func deleteMessage(messageId : MessageId) : async () {
+    // Verify ownership: caller must own the message they're trying to delete
+    let callerText = caller.toText();
+
+    // First, retrieve the message to get its userId
+    switch (messages.get(messageId)) {
+      case (null) {
+        Runtime.trap("Message not found");
+      };
+      case (?message) {
+        // Check if the caller owns the userId associated with this message
+        switch (userPrincipals.get(message.userId)) {
+          case (null) {
+            Runtime.trap("Unauthorized: You can only delete your own messages");
+          };
+          case (?principal) {
+            if (principal != callerText) {
+              Runtime.trap("Unauthorized: You can only delete your own messages");
+            };
+            // Caller owns the message, proceed with deletion
+            messages.remove(messageId);
+          };
+        };
       };
     };
   };

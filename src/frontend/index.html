@@ -5,6 +5,14 @@
         <title>Dini GC</title>
         <link rel='icon' type='image/png' href='/assets/generated/dinigc-favicon.dim_64x64.png' />
         <link rel='apple-touch-icon' href='/assets/generated/dinigc-apple-touch-icon.dim_180x180.png' />
+        <script>
+            // Initialize theme before React loads to prevent flash
+            (function() {
+                const savedTheme = localStorage.getItem('theme');
+                const theme = savedTheme === 'dark' ? 'dark' : 'light';
+                document.documentElement.classList.add(theme);
+            })();
+        </script>
     </head>
     <body>
         <div id='root'></div>

@@ -39,6 +39,7 @@ export interface Message {
     mediaFiles: Array<MediaFile>;
 }
 export interface UserProfile {
+    theme: Theme;
     username: string;
     usernameColor: string;
     profilePictureId: PictureId;
@@ -48,6 +49,10 @@ export enum MediaType {
     video = "video",
     image = "image"
 }
+export enum Theme {
+    dark = "dark",
+    light = "light"
+}
 export enum UserRole {
     admin = "admin",
     user = "user",
@@ -56,6 +61,7 @@ export enum UserRole {
 export interface backendInterface {
     addDefaultPicture(blob: ExternalBlob, pictureId: PictureId): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    deleteMessage(messageId: MessageId): Promise<void>;
     getAllEmojis(): Promise<Array<Emoji>>;
     getAllMessages(): Promise<Array<Message>>;
     getAllMessagesMedia(): Promise<Array<[Message, Array<MediaFile>]>>;
@@ -77,6 +83,7 @@ export interface backendInterface {
     listDefaultPictures(): Promise<Array<[PictureId, ExternalBlob]>>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     sendMessage(content: string, userId: UserId, mediaFileIds: Array<bigint>, customEmojis: Array<EmojiId>): Promise<MessageId>;
+    updateThemePreference(userId: UserId, theme: Theme): Promise<void>;
     updateUserProfile(userId: UserId, username: string, profilePictureId: PictureId, usernameColor: string): Promise<void>;
     uploadEmoji(blob: ExternalBlob, name: string): Promise<EmojiId>;
     uploadMedia(blob: ExternalBlob, mediaType: MediaType, fileName: string): Promise<bigint>;

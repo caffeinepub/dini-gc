@@ -1,29 +1,27 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Upload, Loader2, AlertCircle } from 'lucide-react';
-import { toast } from 'sonner';
-import { useUploadProfilePicture, useCreateUser } from '../hooks/useQueries';
-import type { UserProfile } from '../App';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { MessageCircle, Loader2, Upload, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useCreateUser, useUploadProfilePicture } from '../hooks/useQueries';
+import { toast } from 'sonner';
 
 interface JoinScreenProps {
-  onJoin: (profile: UserProfile) => void;
+  onJoin: (userId: string, username: string, pictureId: string, usernameColor: string) => void;
 }
-
-const DEFAULT_USERNAME_COLOR = '#cde5aa';
 
 export default function JoinScreen({ onJoin }: JoinScreenProps) {
   const [username, setUsername] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadedPreview, setUploadedPreview] = useState<string>('');
-  const [isJoining, setIsJoining] = useState(false);
-  const [connectionError, setConnectionError] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const uploadMutation = useUploadProfilePicture();
   const createUserMutation = useCreateUser();
+  const uploadProfilePictureMutation = useUploadProfilePicture();
+
+  const isJoining = createUserMutation.isPending || uploadProfilePictureMutation.isPending;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,174 +49,211 @@ export default function JoinScreen({ onJoin }: JoinScreenProps) {
       return;
     }
 
-    setIsJoining(true);
-    setConnectionError(false);
-
     try {
       let pictureId = '';
 
-      // If user uploaded a custom picture, upload it first
       if (uploadedFile) {
-        try {
-          const arrayBuffer = await uploadedFile.arrayBuffer();
-          const bytes = new Uint8Array(arrayBuffer);
-          pictureId = `custom_${username.trim()}_${Date.now()}`;
-          await uploadMutation.mutateAsync({ bytes, pictureId });
-        } catch (uploadError: any) {
-          console.error('Error uploading profile picture:', uploadError);
-          // Continue with join even if picture upload fails
-          toast.warning('Profile picture upload failed, continuing with letter avatar');
-          pictureId = '';
-        }
+        const arrayBuffer = await uploadedFile.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        pictureId = `custom_${username}_${Date.now()}`;
+        await uploadProfilePictureMutation.mutateAsync({ bytes, pictureId });
       }
 
-      // Create user in backend - pictureId can be empty string if no picture selected
       const userId = await createUserMutation.mutateAsync({
         username: username.trim(),
         profilePictureId: pictureId,
-        usernameColor: DEFAULT_USERNAME_COLOR,
+        usernameColor: '#cde5aa',
       });
 
-      // Successfully joined
-      onJoin({ 
-        userId,
-        username: username.trim(), 
-        pictureId,
-        usernameColor: DEFAULT_USERNAME_COLOR,
-      });
-      
-      toast.success('Welcome to Dini GC! 🦖');
+      onJoin(userId, username.trim(), pictureId, '#cde5aa');
     } catch (error: any) {
-      console.error('Error joining chat:', error);
+      console.error('Join error:', error);
       
-      const errorMessage = error?.message || String(error);
+      let errorMessage = 'Failed to join. Please try again.';
       
-      // Handle specific error types
-      if (errorMessage === 'USERNAME_TAKEN') {
-        toast.error('This username is already taken. Please choose a different username.');
-      } else if (errorMessage === 'PRINCIPAL_USERNAME_MISMATCH') {
-        toast.error('You already have a different username. Please use your existing username or clear your session.');
-      } else if (errorMessage === 'UNAUTHORIZED') {
-        toast.error('Authentication error. Please refresh the page and try again.');
-      } else if (errorMessage === 'NETWORK_ERROR' || errorMessage.includes('fetch') || errorMessage.includes('network')) {
-        setConnectionError(true);
-        toast.error('Network error. Please check your connection and try again.');
-      } else if (errorMessage === 'Backend not initialized') {
-        setConnectionError(true);
-        toast.error('Unable to connect to the chat service. Please wait a moment and try again.');
-      } else {
-        // Generic error for unexpected issues
-        console.error('Unexpected join error:', error);
-        toast.error('An unexpected error occurred. Please try again.');
+      if (error?.message === 'USERNAME_TAKEN') {
+        errorMessage = 'Sorry, this username already exists. Please choose a different username.';
+      } else if (error?.message === 'UNAUTHORIZED') {
+        errorMessage = 'You are not authorized to join. Please try again.';
+      } else if (error?.message === 'NETWORK_ERROR') {
+        errorMessage = 'Network error. Please check your connection and try again.';
+      } else if (error?.message) {
+        errorMessage = error.message;
       }
       
-      setIsJoining(false);
+      toast.error(errorMessage);
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isJoining) {
+      handleJoin();
+    }
+  };
+
+  const renderLetterAvatar = (username: string) => {
+    if (!username) return null;
+    return (
+      <div 
+        className="w-full h-full rounded-full flex items-center justify-center font-bold"
+        style={{ backgroundColor: '#cde5aa', color: '#ffffff' }}
+      >
+        {username[0].toUpperCase()}
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-white">
-      <Card className="w-full max-w-2xl shadow-2xl border-[22px] border-primary">
-        <CardHeader className="text-center space-y-2">
-          {/* Dinosaur Image */}
-          <div className="flex justify-center mb-3">
-            <img 
-              src="/assets/image.png" 
-              alt="Dini Dinosaur" 
-              className="h-16 w-auto object-contain sm:h-20"
-            />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary mb-4 shadow-lg">
+            <MessageCircle className="w-10 h-10 text-white" />
           </div>
-          
-          <CardTitle className="text-3xl font-bold" style={{ backgroundColor: '#cde5aa', color: 'white', padding: '0.5rem 1rem', borderRadius: '0.5rem', display: 'inline-block' }}>
-            Join the Dini GC
-          </CardTitle>
-          <CardDescription className="text-base text-primary">
-            Fun is starting. 🦖❤
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Connection Error Alert */}
-          {connectionError && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                Unable to connect to the backend. Please check your internet connection and try again in a moment.
-              </AlertDescription>
-            </Alert>
-          )}
+          <h1 className="text-4xl font-bold mb-2" style={{ color: '#cde5aa' }}>
+            Dini GC
+          </h1>
+          <p className="text-muted-foreground">Join the conversation</p>
+        </div>
 
-          {/* Username Input */}
-          <div className="space-y-2">
-            <Label htmlFor="username" className="text-base font-medium text-primary">
-              Choose a Username
-            </Label>
-            <Input
-              id="username"
-              placeholder="Enter your username..."
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              maxLength={30}
-              className="text-base h-12 border-primary focus-visible:ring-primary"
-              disabled={isJoining}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !isJoining) {
-                  handleJoin();
-                }
-              }}
-            />
-            <p className="text-xs text-primary">
-              Returning users can reuse their previous username
-            </p>
-          </div>
+        <div className="bg-card rounded-2xl shadow-xl p-8 border-2 border-primary">
+          <div className="space-y-6">
+            {/* Dinosaur Image */}
+            <div className="flex justify-center mb-6">
+              <img 
+                src="/assets/image.png" 
+                alt="Dinosaur" 
+                className="w-32 h-32 object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
 
-          {/* Avatar Selection - Only label, upload button, and note text visible */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium text-primary">Select Profile Picture (Optional)</Label>
+            {/* Username Input */}
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-foreground">Choose your username</Label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Enter your name"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyPress={handleKeyPress}
+                maxLength={30}
+                disabled={isJoining}
+                className="border-primary focus-visible:ring-primary"
+              />
+            </div>
 
-            {/* Upload Custom Avatar */}
-            <Label
-              htmlFor="avatar-upload"
-              className={`flex items-center justify-center gap-2 p-4 border-2 border-dashed border-primary rounded-lg cursor-pointer hover:bg-accent/50 transition-colors ${
-                isJoining ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              <Upload className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium text-primary">
-                {uploadedFile ? uploadedFile.name : 'Upload Custom Picture'}
-              </span>
-            </Label>
-            <Input
-              id="avatar-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              disabled={isJoining}
-              className="hidden"
-            />
-            
-            <p className="text-xs text-primary text-center">
-              If no picture is selected, a letter avatar will be generated automatically
-            </p>
-          </div>
+            {/* Avatar Preview and Upload */}
+            <div className="space-y-2">
+              <Label className="text-foreground">Profile Picture (Optional)</Label>
+              
+              <div className="flex justify-center mb-4">
+                <div className="text-center">
+                  <Avatar className="w-24 h-24 ring-4 ring-primary shadow-lg mx-auto mb-2">
+                    {uploadedPreview ? (
+                      <AvatarImage src={uploadedPreview} alt="Uploaded" />
+                    ) : null}
+                    <AvatarFallback className="bg-transparent">
+                      {renderLetterAvatar(username || 'U')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className="text-xs text-muted-foreground">Your avatar preview</p>
+                </div>
+              </div>
 
-          {/* Join Button */}
-          <Button
-            onClick={handleJoin}
-            disabled={isJoining || !username.trim()}
-            className="w-full h-12 text-base font-semibold text-white bg-primary hover:bg-primary/90"
-            size="lg"
-          >
-            {isJoining ? (
-              <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Joining...
-              </>
-            ) : (
-              'Join the Fun.'
+              {uploadedPreview && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUploadedFile(null);
+                    setUploadedPreview('');
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
+                  }}
+                  disabled={isJoining}
+                  className="w-full mb-2 border-primary text-primary hover:bg-primary/10"
+                >
+                  Remove Picture
+                </Button>
+              )}
+
+              <div>
+                <Label
+                  htmlFor="avatar-upload"
+                  className={`flex items-center justify-center gap-2 p-3 border-2 border-dashed border-primary rounded-lg cursor-pointer hover:bg-accent/50 transition-colors ${
+                    isJoining ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                >
+                  <Upload className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-primary">
+                    {uploadedFile ? uploadedFile.name : 'Upload Profile Picture'}
+                  </span>
+                </Label>
+                <Input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  disabled={isJoining}
+                  className="hidden"
+                  ref={fileInputRef}
+                />
+              </div>
+            </div>
+
+            {createUserMutation.isError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  {createUserMutation.error?.message === 'USERNAME_TAKEN' 
+                    ? 'Sorry, this username already exists. Please choose a different username.'
+                    : createUserMutation.error?.message === 'UNAUTHORIZED'
+                    ? 'You are not authorized to join. Please try again.'
+                    : createUserMutation.error?.message === 'NETWORK_ERROR'
+                    ? 'Network error. Please check your connection and try again.'
+                    : createUserMutation.error?.message || 'Failed to join. Please try again.'}
+                </AlertDescription>
+              </Alert>
             )}
-          </Button>
-        </CardContent>
-      </Card>
+
+            <Button
+              onClick={handleJoin}
+              disabled={isJoining || !username.trim()}
+              className="w-full bg-primary hover:bg-primary/90 text-white text-lg py-6"
+            >
+              {isJoining ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Joining...
+                </>
+              ) : (
+                'Join Chat'
+              )}
+            </Button>
+          </div>
+        </div>
+
+        <footer className="mt-8 text-center text-sm text-muted-foreground">
+          <p>
+            © {new Date().getFullYear()} · Built with love using{' '}
+            <a
+              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
+                typeof window !== 'undefined' ? window.location.hostname : 'dinigc'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              caffeine.ai
+            </a>
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }
